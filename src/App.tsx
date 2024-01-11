@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+  Button,
+} from "@chakra-ui/react";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function PopaPop({ children }: { children?: React.ReactNode }) {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Popover>
+      <PopoverTrigger>
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          Trigger
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>{children}</PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <div
+      onClick={() => {
+        // Never got call because we stopPropagation in PopaPop
+        alert("click container");
+      }}
+    >
+      <PopaPop>Hi me</PopaPop>
+
+      <PopaPop>Another me</PopaPop>
+    </div>
+  );
+}
+
+export default App;
